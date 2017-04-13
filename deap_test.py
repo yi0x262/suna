@@ -1,13 +1,14 @@
 #!/usr/bin/env python3
 
 from deap import base,creator,tools
-import random
+import numpy as np
 
 creator.create("FitnessMin",base.Fitness, weights=(1.0,))#init adapt class
-creator.create("Individual", list, fitness=creator.FitnessMin)#?
+#creator.create("Individual", list, fitness=creator.FitnessMin)#?
+creator.create("Individual", np.ndarray, fitness=creator.FitnessMin)#?
 
 toolbox = base.Toolbox()#make functions
-toolbox.register("attr_bool", random.randint, 0, 1)#define attr_bool = random.randint(0,1)
+toolbox.register("attr_bool", np.random.randint, 2)#define attr_bool = random.randint(0,1)
 toolbox.register("individual", tools.initRepeat, creator.Individual, toolbox.attr_bool, 100)#
 toolbox.register("population", tools.initRepeat, list, toolbox.individual)#
 
@@ -20,7 +21,6 @@ toolbox.register("mutate", tools.mutFlipBit, indpb=0.05)
 toolbox.register("select", tools.selTournament, tournsize=3)
 
 if __name__ == '__main__':
-    random.seed(64)#generate 64 parents
     pop = toolbox.population(n=300)
     CXPB, MUTPB, NGEN = 0.5, 0.2, 40#mate probability, mutate probability, generation times
 
@@ -36,17 +36,16 @@ if __name__ == '__main__':
         print("-- Generation",g,"--")
 
         #select new generations
-        offspring = toolbox.select(pop,len(pop))
-        offspring = list(map(toolbox.clone, offspring))
+        offspring = list(map(toolbox.clone, toolbox.select(pop,len(pop))))
 
         #mate&mutate
         for child1,child2 in zip(offspring[::2],offspring[1::2]):
-            if random.random() < CXPB:
+            if np.random.random() < CXPB:
                 toolbox.mate(child1,child2)
                 del child1.fitness.values
                 del child2.fitness.values
         for mutant in offspring:
-            if random.random() < MUTPB:
+            if np.random.random() < MUTPB:
                 toolbox.mutate(mutant)
                 del mutant.fitness.values
 
