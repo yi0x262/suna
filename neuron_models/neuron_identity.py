@@ -1,4 +1,4 @@
-from neuron import neuron_base
+from .neuron import neuron_base
 
 class neuron_identity(neuron_base):
     def activation(self,x):

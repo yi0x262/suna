@@ -1,4 +1,4 @@
-from neuron import neuron_base
+from .neuron import neuron_base
 from math import e
 
 class neuron_sigmoid(neuron_base):

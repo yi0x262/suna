@@ -1,4 +1,4 @@
-from neuron import neuron_base
+from .neuron import neuron_base
 from random import uniform
 
 class neuron_random(neuron_base):

@@ -1,4 +1,4 @@
-from neuron import neuron_base
+from .neuron import neuron_base
 
 class neuron_threshold(neuron_base):
     threshold = 0.5
