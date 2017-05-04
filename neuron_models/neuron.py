@@ -11,9 +11,9 @@ class neuron_base(metaclass=ABCMeta):
         self.adaptation_speed = adaptation_speed
         self.internal_state = internal_state
 
-    def __call__(self,v):
-        """v is a vector"""
-        self.internal_state += (self.activation(sum(v))-self.internal_state)/self.adaptation_speed
+    def __call__(self,x):
+        """v is sum of inputs"""
+        self.internal_state += (self.activation(x)-self.internal_state)/self.adaptation_speed
         return self.internal_state
 
     @staticmethod
